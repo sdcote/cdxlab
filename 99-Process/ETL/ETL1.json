@@ -1,0 +1,40 @@
+{
+	"Class": "coyote.dx.Job",
+	"Description": [
+		"This retrieves data from a REST service, saves the data to disk, then",
+		"reads the JSON objects from that file and sends them through the",
+		"transform pipeline. The only thing in this pipeline is a ConsoleWriter",
+		"to show the data received."
+	],
+	"Job": {
+		"Name": "ETL1",
+		"Preprocess": {
+			"WebGet": {
+				"source": "https://metricportal-d.corp.io/api/request/group/IT%20Enterprise%20Continuous%20Delivery",
+				"target": "requestmetric.json"
+			}
+		},
+		"Reader": {
+			"class": "JsonReader",
+			"source": "requestmetric.json"
+		},
+		"Writer": {
+			"enabled": true,
+			"class": "ConsoleWriter",
+			"format": "json",
+			"indent": true
+		}
+	},
+	"Logging": {
+		"StandardError": {
+			"name": "error",
+			"target": "STDERR",
+			"categories": "error, fatal, warn"
+		},
+		"StandardOutput": {
+			"name": "default",
+			"target": "STDOUT",
+			"categories": "info, notice"
+		}
+	}
+}

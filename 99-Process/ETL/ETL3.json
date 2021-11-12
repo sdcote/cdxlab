@@ -1,0 +1,52 @@
+{
+	"Class": "coyote.dx.Job",
+	"Description": [
+		"This retrieves data from a REST service, saves the data to disk, then",
+		"reads the JSON objects from that file and sends them through the",
+		"transform pipeline. The pipeline contains a ConsoleWriter to show the",
+		"data received and JDBC Writer to store the data in a relational",
+		"database."
+	],
+	"Job": {
+		"Name": "ETL3",
+		"Preprocess": {
+			"WebGet": {
+				"source": "https://metricportal-d.corp.io/api/request/group/IT%20Enterprise%20Continuous%20Delivery",
+				"target": "requestmetric.json"
+			}
+		},
+		"Reader": {
+			"class": "JsonReader",
+			"source": "requestmetric.json"
+		},
+		"Writer": {
+			"enabled": true,
+			"class": "ConsoleWriter",
+			"format": "json",
+			"indent": true
+		},
+		"Writer": {
+			"class": "JdbcWriter",
+			"target": "jdbc:h2:[#$jobdir#]/demodb;MODE=Oracle",
+			"table": "user",
+			"autocreate": true,
+			"driver": "org.h2.Driver",
+			"library": "jar:[#FormatSymbol.toFileURI(user.dir)#]/h2-1.4.200.jar!/",
+			"username": "sa",
+			"password": "",
+			"batch": 5
+		}
+	},
+	"Logging": {
+		"StandardError": {
+			"name": "error",
+			"target": "STDERR",
+			"categories": "error, fatal, warn"
+		},
+		"StandardOutput": {
+			"name": "default",
+			"target": "STDOUT",
+			"categories": "info, notice"
+		}
+	}
+}

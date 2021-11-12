@@ -1,0 +1,18 @@
+{
+	"Class": "coyote.dx.Job",
+
+	"Job": {
+		"Reader": {
+			"class": "WebServiceReader",
+			"source": "http://api.openweathermap.org/data/2.5/weather?id=[#$cityid#]&appid=[#$api.key#]",
+			"protocol" : { "exchangetype" : "JSON_REST", "method" : "GET" }
+		},
+		"Writer" : {
+			"class" : "CsvWriter",
+			"header" : true,
+			"dateformat" : "yyyy/MM/dd",
+			"target" : "[#$city#]_Weather.csv"
+		}
+	}
+
+}

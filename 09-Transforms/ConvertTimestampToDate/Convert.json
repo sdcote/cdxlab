@@ -1,0 +1,31 @@
+{
+	"Class": "coyote.dx.Job",
+	"Job": {
+		"Description": [
+			"This reads in a CSV and copies the 'nonce' field to a new field called 'Date'. The nonce is actually the epoch time in milliseconds",
+			"The 'Date' transform is used to convert the numeric nonce onto a date type.",
+			"Finally, the writer writes all the records out using a date format for all Date types."
+		],
+		"Reader": {
+			"Class": "CsvReader",
+			"Source": "audit.csv",
+			"Header": true
+		},
+		"Transform": {
+			"Copy": {
+				"field": "Date",
+				"source": "nonce"
+			},
+			"Date": {
+				"field": "Date",
+				"format": "milliseconds"
+			}
+		},
+		"Writer": {
+			"Class": "CsvWriter",
+			"dateformat": "yyyy/MM/dd HH:mm:ss",
+			"Target": "[#$cfg.dir#][#$FS#]converted.csv",
+			"header": true
+		}
+	}
+}

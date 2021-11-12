@@ -1,0 +1,10 @@
+{
+	"Class": "coyote.dx.Job",
+	"Job": {
+		"Task": {
+			"Delete": { "directory": "[#$user.dir#]/Simple" },
+			"Delete": { "directory": "[#$user.dir#]/BasicServiceJob" },
+			"Delete": { "directory": "[#$user.dir#][#$FS#]log" }
+		}
+	}
+}

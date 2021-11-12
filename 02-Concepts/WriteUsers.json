@@ -1,0 +1,21 @@
+{
+	"Class" : "coyote.dx.Job",
+	
+	"Job" : {
+		"Name" : "WriteUsers",
+		
+		"Reader" : {
+			"class" : "CsvReader",
+			"source" : "[#$app.home#]/demo/users.csv",
+			"header" : true
+		},
+
+		"Writer" : {
+			"class" : "ConsoleWriter",
+			"format" : "json",
+			"indent" : true,
+			"message" : "Record [#$CurrentFrame#] received."
+		}
+	}
+
+}

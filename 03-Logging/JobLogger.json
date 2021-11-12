@@ -1,0 +1,27 @@
+{
+	"Class": "coyote.dx.Job",
+	"Job": {
+		"Preprocess": { "WebGet": { "source": "https://blockchain.info/ticker"  } },
+		"Reader": { "class": "JsonReader", "source": "ticker" },
+		"Mapper": { "fields" : { "USD.15m": "15m", "USD.last": "Last", "USD.buy": "Buy", "USD.sell": "Sell" } },
+		"Writer": { "class": "ConsoleWriter", "format": "json", "indent": true },
+		"Logging": {
+			"CyclingFileAppender": {
+				"target": "[#$jobdir#]/Debug.log",
+				"categories": "trace, debug, info, scheduler, http, thread, notice, error, fatal, warn",
+				"generations": 10,
+				"maxsize": "10MB",
+				"enabled": true
+			},
+			"CyclingFileAppender": {
+				"target": "Error.log",
+				"categories": "error, fatal, warn",
+				"generations": 10,
+				"maxsize": "2MB",
+				"enabled": true
+			}
+		}
+	},
+	
+    "Logging": { "StandardOutput": { "categories": "info, notice, warn, error, fatal" } }
+}

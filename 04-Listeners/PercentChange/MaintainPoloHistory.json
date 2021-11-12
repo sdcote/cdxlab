@@ -1,0 +1,23 @@
+{
+	"Class": "coyote.dx.Job",
+	"Job": {
+		"Description": [
+			"Keeps the BTC Ticker data small and sorted. ",
+			"Uses the Grouping aggregator to group all like symbols together in the order they were received and limit each group to about a days worth of readings.",
+			"This job expects the following context variables:",
+			"Source - the fully-qualified name of the data file to process",
+			"Temp - the name of the temporary file to use for processing"
+		],
+		"PreProcess": {
+			"Copy": { "source": "Source", "target": "Temp" }
+		},
+
+		"Reader": { "class": "CsvReader", "source": "Temp", "header": true },
+
+		"Aggregator": { "class": "Grouping", "key": "Symbol", "limit": 288, "sort": "ascend" },
+
+		"Writer": { "class": "CsvWriter", "target": "Source", "header": true, "append": false }
+
+	}
+
+}

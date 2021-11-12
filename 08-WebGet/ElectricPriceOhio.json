@@ -1,0 +1,24 @@
+{
+	"Class": "coyote.dx.Job",
+	"Job": {
+		"Name": "ElectricityPriceOhio",
+		"Description": "Download a dataset with a task, read it in with a JSON reader, write it to both the console and a CSV file.",
+
+		"Preprocess": {
+			"WebGet": {
+				"source": "http://api.eia.gov/series/?api_key=a9882ddaeaebbbNotARealKey&series_id=ELEC.PRICE.OH-ALL.M",
+				"target": "price.dat"
+			}
+		},
+
+		"Reader": { "class": "JsonReader", "source": "price.dat", "selector": "series.*.data.*" },
+
+		"Mapper": { "fields": { "0": "Month", "1": "Price" } },
+
+		"Writer": { "class": "ConsoleWriter", "format": "json" },
+
+		"Writer": { "class": "CsvWriter", "header": true, "target": "OhioElectricityPrice.csv" }
+
+	}
+
+}

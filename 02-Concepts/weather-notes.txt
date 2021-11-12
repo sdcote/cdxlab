@@ -1,0 +1,2 @@
+cdx weather.json - CDX looks in the app.home\cfg directory
+cdx weather - CDX tries to locate files by assuming the .json extention

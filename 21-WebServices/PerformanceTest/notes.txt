@@ -1,0 +1,7 @@
+This shows how to run a performance test of a web service using a reader and a WebServiceWriter.
+
+The reader reads in data to send to the web service. It can be a single record or a batch of test data. 
+
+The WebServiceWriter writes the record to the target web service endpoint and then writes the response to another destination. Because ResponseWriters are just regular writers, any destinaton is possible.
+
+To really scale things up, run multiple jobs in different threads/windows.

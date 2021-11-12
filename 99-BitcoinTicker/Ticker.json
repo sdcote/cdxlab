@@ -1,0 +1,29 @@
+{
+	"Class": "coyote.dx.Job",
+	"Job": {
+		"Name": "BTCUSD",
+		"Reader": {
+			"class": "BitcoinAverageTickerReader",
+			"publickey": "WExZGNkOWzNotARealKeyBhYI2MjgzMWQ0YTFjNDcyNjg0Y2YQxMmI",
+			"privatekey": "MzOWJjNmYNotARealKey1YzEM2ZGU2NmQ0MmVlYTlmZGEQ2NzQ5YTlkZWM4NDBkNW0OTYzYTI2IyNDgwMmJhNThiODzMjE2Mw",
+			"currency": "BTCUSD"
+		},
+		"Writer": {
+			"class": "CsvWriter",
+			"target": "[#$iso8601date#].csv",
+			"header": true
+		},
+		"Writer": {
+			"class": "ConsoleWriter",
+			"format": "json",
+			"indent": true,
+			"enabled": true,
+			"message": "Event [#$CurrentFrame#]"
+		}
+	},
+	"Logging": {
+		"StandardOutput": { "target": "STDOUT", "categories": "info, notice" },
+		"StandardError": { "target": "STDERR", "categories": "error, fatal, warn" },
+		"CyclingFileAppender": {  "target": "BTCUSDTicker.log", "categories": "debug, info, notice, warn, error, fatal" }
+	}
+}

@@ -1,0 +1,59 @@
+{
+	"Class": "coyote.dx.Job",
+	"Job": {
+		"Description": [
+			"Retrieve BTC exchange data from Poloniex and scan it for changes.",
+			"This is to be run every 5 minutes to retrieve ticker data",
+			"The first step is to read in the latest ticker data from the exchange. This is performed with a separate job.",
+			"Data from previous runs are loaded into the transform",
+			"The ticker data is read in and appended to the history file while the listener looks for interesting changes,",
+			"Finally, the data is trimmed and sorted, in a separate job, in preparation for preloading into subsequent runs."
+		],
+
+		"PreProcess": { 
+			"SetSymbol": {"symbol":"filename", "value":"PoloTicker.csv"},
+			"SetSymbol": {"symbol":"preloadfile", "value":"[#$jobdir#][#$FS#]PoloPreload.csv"},
+			"SetSymbol": {"symbol":"datafile", "value":"[#$jobdir#][#$FS#][#$filename#]"},
+			"SetSymbol": {"symbol":"tempfile", "value":"[#$preloadfile#].tmp"},
+			"RunJob": { "filename": "PoloTicker", "context":{ "Target":"[#$datafile#]" } }
+		},
+
+		"PreLoad": { "class": "CsvReader", "source": "[#$preloadfile#]", "header": true },
+
+		"Reader": { "class": "CsvReader", "source": "[#$datafile#]", "header": true },
+
+		"Listener": {
+			"PercentChange": {
+				"condition": "exists(Target.Volume)",
+				"enabled": true,
+				"group": "Symbol",
+				"field": "Volume",
+				"exceeds": "0.10",
+				"average": false,
+				"direction": "up",
+				"Task": "LogEntry",
+				"Config": {
+					"category": "notice",
+					"message": "[#$Symbol#] volume has [#$Action#] [#$AbsolutePercent#]% over previous period on Poloniex."
+				}
+			}
+		},
+
+		"Writer": { "class": "CsvWriter", "target": "[#$preloadfile#]", "header": true, "append": true },
+
+		"PostProcess": { 
+			"RunJob": { "filename": "MaintainPoloHistory", "context":{ "Source":"[#$preloadfile#]", "Temp":"[#$tempfile#]" }  }
+		}
+
+	},
+
+
+	"Logging": {
+		"StandardOutput": { "categories": "info, notice" },
+		"StandardError": { "categories": "error, fatal, warn" },
+		"FileAppender": { "target": "[#$cfg.dir#][#$FS#]scanner.log", "categories": "notice", "append": true, "enabled": true },
+		"FileAppender": { "target": "[#$cfg.dir#][#$FS#]error.log", "categories": "error, fatal, warn", "append": true },
+		"CyclingFileAppender": { "target": "[#$cfg.dir#][#$FS#]debug.log", "categories": "trace, debug, error, fatal, warn", "generations": 5, "maxsize": "4MB", "enabled": false }
+	}
+
+}

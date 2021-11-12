@@ -1,0 +1,9 @@
+This shows how to replace file transfer integrations with two data transfer jobs.
+
+The source component reads from the source system and generates a batch of records to send. But instead of generating a file, it passes each record to a Web Service Writer which simply PUTs the record in the service endpoint, i.e the target.
+
+The target component reads posted records from the web service reader and writes the record to the local data store.
+
+Note there is no need to have an intermediary system manage inboxes or outboxes. No extra components are required to perform FTPS, SCP or other transfer protocol. All that is requires is an HTTPS connection between the source and targent components.
+
+Errors are logged into files for separate, out-of-band processing.

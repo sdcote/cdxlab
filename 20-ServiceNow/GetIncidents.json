@@ -1,0 +1,28 @@
+{
+	"Class" : "coyote.dx.Job",
+	
+	"Job" : {
+
+		"Reader": {
+			"notes": "This shows how to retrieve incidents",
+			"class": "SnowReader",
+			"source": "https://dev21185.service-now.com/",
+			"username": "coyote",
+			"password": "dataexchange",
+			"table": "incident",
+			"limit": 10
+		},
+
+		"Writer": { "class": "CsvWriter", "header": true, "target": "incidents.csv" },
+
+		"Listener": {
+			"DataProfiler": { "target": "DataProfile.txt" }
+		}
+	},
+
+	"Logging": {
+		"ConsoleAppender": { "categories": "notice, info, error, fatal, warn" },
+		"FileAppender": {  "target": "debug.log", "categories": "trace, debug, notice, info, error, fatal, warn", "enabled": false }
+	}
+
+}

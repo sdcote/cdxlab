@@ -1,0 +1,43 @@
+{
+	"Class": "coyote.dx.Job",
+
+	"Job": {
+		"Name": "Template",
+		"Notes": "Feel free to use the notes attribute to describe any of the components.",
+
+		"Context": {
+		},
+
+		"PreProcess": {
+		},
+
+		"Reader": {
+		},
+
+		"Filter": {
+		},
+
+		"Validate": {
+		},
+
+		"Transform": {
+		},
+
+		"Mapper": {
+		},
+
+		"Writer": {
+		},
+
+		"PostProcess": {
+		},
+
+		"Listener": {
+		}
+
+	},
+
+	"Logging": {
+		"StandardOutput": { "categories": "trace, debug, info, notice, warn, error, fatal" }
+	}
+}

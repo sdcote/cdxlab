@@ -1,0 +1,23 @@
+{
+	"Class": "coyote.dx.Service",
+	"Description":[
+		"This listens for HTTP REST calls on port 80 with an endpoint of",
+		"/webservice, and writes the received data to the console and a file.",
+		"Console logs contain the standard events, but the debug.log file",
+		"contains highly detailed messages."
+	],
+
+
+	"Job": {
+		"Reader": { "class": "HttpReader", "port": 80, "timeout": 5000, "IPACL" : { "default" : "allow"	},"endpoint": "/webservice" },
+		"Writer": { "class": "ConsoleWriter", "enabled": true, "format": "json", "indent": true, "message": "Record [#$CurrentFrame#] received." },
+		"Writer": { "class": "JsonWriter", "enabled": true, "target": "Requests.json", "append": true }
+  	},
+
+	"Logging": {
+		"StandardOutput": { "categories": "info, notice, httpd" },
+		"StandardError": { "categories": "warn, error, fatal" },
+		"CyclingFileAppender": { "target": "debug.log", "categories": "scheduler, thread, debug, trace, info, HTTPD, notice, warn, error, fatal", "generations": 5, "maxsize": "2MB", "enabled": true }
+	}
+
+}

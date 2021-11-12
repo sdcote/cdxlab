@@ -1,0 +1,158 @@
+{
+  "dynamicAllocationRequest":{
+    "client": "SAP4",
+    "source": "EDI",
+    "uniqueTransactionId": "1234567890",
+    "requestDateTime": "05152018114250",
+    "order": {
+      "orderNumber": "CVS123",
+      "blockOneTimeOverride": "N",
+      "customer": {
+        "accountNumber": "630936",
+        "locationId": "630936",
+        "dcId": "006D",
+        "contractAffiliation": "",
+        "contractGroupNumber": "",
+        "backOrderFlag": "",
+        "skipLimitFlag": "Y",
+        "address": {
+          "city": "",
+          "state": "",
+          "zipCode": ""
+        },
+        "classOfTrade": {
+          "code": "04",
+          "description": "Chain Pharmacy"
+        },
+        "affiliations": [
+          {
+            "code": "CVSGPO",
+            "level": 1
+          },
+          {
+            "code": "CVSXXX",
+            "level": 2
+          }
+        ],
+        "primarySecondaryIndicators": [
+          {
+            "productType": "BRAND_C2",
+            "customerType": "P"
+          }
+        ],
+        "classifications": [
+          {
+            "name": "",
+            "ruleId": ""
+          }
+        ]
+      },
+      "orderLineItems": [
+        {
+          "CIN": "1088871",
+          "cardinalKey": "",
+          "GCN": "39812",
+          "accunet": 0,
+          "description": "CRESTOR 10MG 90",
+          "status": "M",
+          "hamacherDepartmentNumber": "",
+          "cardinalGenericCode": "1088871",
+          "deaScheduleNumber": "00",
+          "hazmatIndicator": "",
+          "refrigerationStorageCode": "",
+          "quantityOnHand": 0,
+          "newItemFlag": "N",
+          "itemStocked": "Y",
+          "caseSize": 1,
+          "packSize": 1,
+          "prices": [
+            {
+              "newPrice": 2.3,
+              "oldPrice": 2.3,
+              "effectiveDate": "2017-11-15T16:52:58.000+0000",
+              "type": {
+                "code": "WAC",
+                "description": "Warehouse Acquisition Cost"
+              }
+            }
+          ],
+          "vendorNumber": "1234",
+          "lineNumber": 1,
+          "invoiceNumber": "1234",
+          "safetyStock": 0,
+          "safetyStockDays": 0,
+          "safetyStockForeCast": 0,
+          "requestedQuantity": 5,
+          "oneTimeOverrideQuantity": 2,
+          "dcId": "006D",
+          "priorMonthSales": 3,
+          "specialProgramCodes": [
+            ""
+          ],
+          "allocationMethods": [
+            ""
+          ],
+          "availabilityAlert": [
+            {
+              "effectiveDate": "2016-01-01T19:07:42.000+0000",
+              "alertCode": "",
+              "expiryDate": "2012-01-07T19:42:56.000+0000",
+              "expeditingCode": {
+                "code": "",
+                "description": ""
+              }
+            }
+          ],
+          "itemClassifications": [
+            {
+              "name": "",
+              "primaryRuleId": "",
+              "secondaryRuleId": ""
+            }
+          ],
+          "cardinalKeyClassifications": [
+            {
+              "name": "",
+              "primaryRuleId": "",
+              "secondaryRuleId": ""
+            }
+          ],
+          "customerItemClassifications": [
+            {
+              "name": "",
+              "ruleId": "",
+              "allowedQuantity": 3
+            }
+          ],
+          "itemSysCodeClassifications": [
+            {
+              "name": "",
+              "ruleId": ""
+            }
+          ]
+        }
+      ]
+    },
+    "dcAccountHistory": [
+      {
+        "averageMonthlyUsage": 5,
+        "dailyAccrual": 0,
+        "weeklyAccrual": 0,
+        "monthlyAccrual": 0,
+        "key": "",
+        "group": "GCN"
+      }
+    ],
+    "locationHistory": [
+      {
+        "averageMonthlyUsage": 5,
+        "dailyAccrual": 0,
+        "weeklyAccrual": 0,
+        "monthlyAccrual": 0,
+        "key": "",
+        "group": "GCN"
+      }
+    ]
+  },
+"__DecisionID__": "string"
+}

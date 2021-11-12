@@ -1,0 +1,15 @@
+{
+  "Class":"coyote.dx.Job",
+  "Job":{
+    "Reader":{ "Class":"JsonReader","Source":"requests.json","Flatten":false},
+
+    "Writer" : {
+			"class" : "ConsoleWriter",
+			"format" : "json",
+			"indent" : true
+    }
+  },
+  "Logging":{
+    "StandardOutput":{"categories":"ERROR, FATAL, WARN, INFO"}
+  }
+}

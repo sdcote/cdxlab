@@ -1,0 +1,44 @@
+{
+	"Class": "coyote.dx.Job",
+	
+	"Job": {
+		"Description": [
+			"Shows how to listen to HTTP events and process them according to ReST practices.",
+			"This job requires CoyoteDB as it contains the Listeners which perform CRUD operations on the data in the relational database",
+			"A single reader listens on two different endpoints and listeners perform some action based on the HttpMethod and HttpResource used.",
+			"In this case entity records are handled by one set of listeners which use a database to persist data and session records are handled by another set of database components."
+		],
+
+		"Task": {
+			"DatabaseFixture": {
+				"name": "H2",
+				"target": "jdbc:h2:./service",
+				"driver": "org.h2.jdbcx.JdbcDataSource",
+				"username": "sa"
+			}
+		},
+
+		"Reader": {
+			"class": "HttpReader",
+			"endpoint": "/api/entity/:sysid, /api/session/:sysid"
+		},
+
+		"Listener": {
+			"CreateRecord": {"Condition": "match(Context.HttpMethod,POST) && match(Context.HttpResource,entity)",  "target": "H2", "table": "ENTITY" },
+			"ReadRecord": {"Condition": "match(Context.HttpMethod,GET) && match(Context.HttpResource,entity)",  "target": "H2", "table": "ENTITY" },
+			"UpdateRecord": {"Condition": "match(Context.HttpMethod,PUT) && match(Context.HttpResource,entity)",  "target": "H2", "table": "ENTITY" },
+			"DeleteRecord": {"Condition": "match(Context.HttpMethod,DELETE) && match(Context.HttpResource,entity)",  "target": "H2", "table": "ENTITY" },
+
+			"CreateRecord": {"Condition": "match(Context.HttpMethod,POST) && match(Context.HttpResource,session)",  "target": "H2", "table": "SESSION" },
+			"ReadRecord": {"Condition": "match(Context.HttpMethod,GET) && match(Context.HttpResource,session)",  "target": "H2", "table": "SESSION" },
+			"UpdateRecord": {"Condition": "match(Context.HttpMethod,PUT) && match(Context.HttpResource,session)",  "target": "H2", "table": "SESSION" },
+			"DeleteRecord": {"Condition": "match(Context.HttpMethod,DELETE) && match(Context.HttpResource,session)",  "target": "H2", "table": "SESSION" }
+		}
+	},
+
+	"Logging": {
+		"StandardError": { "categories": "warn, error, fatal" },
+		"StandardOutput": { "categories": "httpd, info, notice" 	}
+	}
+
+}

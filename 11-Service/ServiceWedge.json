@@ -1,0 +1,18 @@
+{
+	"Class": "coyote.dx.Service",
+
+	"Component": [
+		{
+			"Class": "coyote.loader.Wedge",
+			"Notes": "This just keeps the the service open."
+		}
+	],
+	
+	"Logging": {
+		"StandardOutput": { "categories": "info" },
+		"StandardError": { "categories": "error, fatal, warn" },
+		"FileAppender": { "target": "[#$work.dir#]/log/error.log", "categories": "error, fatal, warn" },
+		"FileAppender": { "target": "[#$work.dir#]/log/scheduler.log", "categories": "scheduler, thread" }
+	}
+
+}

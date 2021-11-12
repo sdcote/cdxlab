@@ -1,0 +1,60 @@
+{
+	"Class": "coyote.dx.Job",
+	"Job": {
+		"Name": "JIRA_Issues",
+		"Description": "Retrieve JIRA issues and place them in a CSV file. Pagination controls a special set of symbols, and the selector finds the individual records.",
+		"Reader": {
+			"Class": "WebServiceReader",
+			"Source": "https://someorg.atlassian.net/rest/api/2/search?project=WRPO&startAt=[#$page.start#]&maxResults=[#$page.size#]",
+			"Selector": "issues.*",
+			"Pagination": {
+				"start": 0,
+				"step": 100
+			},
+			"Protocol": {
+				"ExchangeType": "JSON_REST",
+				"Method": "GET"
+			},
+			"Decorator": {
+				"BasicAuth": {
+					"username": "scote@someorg.org",
+					"ENC:password": "QUsi83A9+HXioGxZlN2Uz2Naby3KcZJmc7v67c+pjRY="
+				}
+			}
+		},
+		"Mapper": {
+			"Fields": {
+				"id": "ID",
+				"fields.issuetype.name": "Type",
+				"fields.issuetype.subtask": "SubTask",
+				"key": "Number",
+				"fields.description": "Description",
+				"fields.resolution.name": "Resolution",
+				"fields.progress.percent": "PercentComplete",
+				"fields.resolutiondate": "ResolutionDate",
+				"fields.created": "Created",
+				"fields.priority.name": "PriorityDesc",
+				"fields.priority.id": "Priority",
+				"fields.timeestimate": "TimeEstimate",
+				"fields.aggregatetimeoriginalestimate": "AggregateEstimate",
+				"fields.assignee.name": "Assignee",
+				"fields.status.description": "StatusDescription",
+				"fields.status.name": "Status",
+				"fields.timeoriginalestimate": "OriginalEstimate",
+				"fields.creator.name": "Creator",
+				"fields.reporter.name": "Reporter"
+			}
+		},
+		"Writer": {
+			"class": "CsvWriter",
+			"header": true,
+			"dateformat": "yyyy/MM/dd",
+			"target": "workitems.csv"
+		}
+	},
+	"Logging": {
+		"StandardOutput": {
+			"categories": "trace, debug, info, notice, warn, error, fatal"
+		}
+	}
+}

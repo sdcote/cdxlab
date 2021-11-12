@@ -1,0 +1,51 @@
+{
+	"Class": "coyote.dx.Job",
+	"Job": {
+		"Description": [
+			"Returns the ticker data for all markets with BTC as its base.",
+			"This job expects the following context variables to be set:",
+			"Target - The fully-qualified path to the target file "
+		],
+
+		"Reader": {
+			"Class": "WebServiceReader",
+			"Source": "https://poloniex.com/public?command=returnTicker",
+			"Selector": "*",
+			"Protocol": { "ExchangeType": "JSON_HTTP", "Method": "GET" }
+		},
+
+		"Filter": {
+			"Accept": { "condition": "regex(Working.framePath , ^BTC_ )" },
+			"Reject": { "note": "We only want the tickers with the BTC(Bitcoin) base" }
+		},
+
+		"Transform": {
+			"Split": { "field": "framePath", "delimiter": "_" },
+			"Set": { "field": "date", "value": "DateTime" },
+			"Set": { "field": "time", "value": "DateTime" },
+			"Format": { "field": "date", "format": "YYYY-MM-dd" },
+			"Format": { "field": "time", "format": "HH:mm:ss" }
+		},
+
+		"Mapper": {
+			"Fields": {
+				"framePath.1": "Symbol",
+				"date": "Date",
+				"time": "Time",
+				"quoteVolume": "Volume",
+				"last": "Price",
+				"lowestAsk": "LowestAsk",
+				"highestBid": "HighestBid",
+				"percentChange": "PercentChange",
+				"high24hr": "24hrHigh",
+				"low24hr": "24hrLow",
+				"framePath.0": "Base",
+				"baseVolume": "BaseVolume"
+			}
+		},
+
+		"Writer": { "class": "CsvWriter", "target": "Target", "header": true, "append": false }
+
+	}
+
+}

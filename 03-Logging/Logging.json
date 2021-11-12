@@ -1,0 +1,22 @@
+{
+	"Class": "coyote.dx.Job",
+	
+	"Job": {
+		"Name": "Logging",
+
+		"Reader": {
+			"class": "CsvReader",
+			"source": "[#$app.home#]/demo/users.csv",
+			"header": true
+		}
+		
+	},
+
+	"Logging": {
+        "ConsoleAppender": { "target": "STDERR", "categories": "error, fatal, warn" },
+        "ConsoleAppender": { "target": "STDOUT", "categories": "info, notice" },
+        "FileAppender": {  "target": "[#$user.dir#]/mydebug.log", "categories": "debug, trace", "enabled": true  },
+        "FileAppender": {  "target": "debug.log", "categories": "debug, trace" }
+	}
+
+}

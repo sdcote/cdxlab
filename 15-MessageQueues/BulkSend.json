@@ -1,0 +1,29 @@
+{
+	"Class" : "coyote.dx.Job",
+	"Repeat": true,
+	
+	"Job" : {
+		"Name" : "BulkSend",
+		
+		"Reader" : {
+			"class" : "CsvReader",
+			"source" : "[#$app.home#]/demo/users.csv",
+			"header" : true
+		},
+
+		"Transform": {
+			"Counter": { "field": "RecNum" }
+		},
+
+		"Writer": {
+			"class": "RabbitWriter",
+			"target": "amqp://orangutan.rmq.cloudamqp.com/qqxhunvl",
+			"ENC:username": "3NaWHlOog2nkA/Wn3CO0i4uGgozkPiFy",
+			"ENC:password": "AZYOvIzt4+rUtbn+jAI8/1y/dnhBueMSzI4A1niA87ks2Oo7PWqgYv6nPzAGor1tB1kYiig995Gb1vzXWdo21pd19yuXtGXZ",
+			"use_ssl": true,
+			"queue": "demo/queue",
+			"format": "binary"
+		}
+	}
+
+}

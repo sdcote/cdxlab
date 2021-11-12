@@ -1,0 +1,4 @@
+There are two profiler configurations stored in the app.home config directory which takes command line parameters for the file to read:
+cdx profile ..\DataSets\FlightDelaysWithAirportCodes.csv 
+cdx profilesql ..\DataSets\FlightDelaysWithAirportCodes.csv
+

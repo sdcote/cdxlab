@@ -1,0 +1,21 @@
+{
+  "Class":"coyote.dx.Job",
+  "Job":{
+    "Reader":{ "Class":"CsvReader","Source":"requests.csv","Header":true},
+    "Writer":{
+      "Class": "WebServiceWriter",
+      "Target":"http://10.63.208.52:9080/DecisionService/rest/v1/HelloWorldRuleApp/HelloWorldRules",
+      "Protocol":{ "ExchangeType":"JSON_REST","Method":"POST" },
+      "ResponseWriter":{"Class":"CsvWriter","Target":"responses.csv","Header":true},
+      "Decorator":{
+        "BasicAuth":{
+          "UserName":"resAdmin",
+          "Password":"resAdmin"
+        }
+      }
+    }
+  },
+  "Logging":{
+    "StandardOutput":{"categories":"ERROR, FATAL, WARN, INFO"}
+  }
+}

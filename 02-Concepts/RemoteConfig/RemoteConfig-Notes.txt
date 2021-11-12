@@ -1,0 +1,7 @@
+All coyote jobs can utilize a remote HTTP URL for configurations.  Use the the following commands to start a local job with a remote configuration:
+
+cdx http://github.com/sdcote/loader/blob/master/src/test/resources/ou812.json
+
+cdx http://github.com/sdcote/loader/blob/master/src/test/resources/simpleweb.json
+
+The second command starts a long running service.

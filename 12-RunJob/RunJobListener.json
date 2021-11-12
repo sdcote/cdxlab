@@ -1,0 +1,21 @@
+{
+	"Class": "coyote.dx.Job",
+	"Job": {
+		"Description": "Shows how to run jobs unconditionally",
+		"Reader": {
+			"class": "CsvReader",
+			"source": "jobdata.csv",
+			"header": true
+		},
+		"Listener": {
+			"RunJob": {
+				"filename": "WeatherData"
+			}
+		}
+	},
+	"Logging": {
+		"StandardOutput": {
+			"categories": "trace, debug, info, notice, warn, error, fatal"
+		}
+	}
+}

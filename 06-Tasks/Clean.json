@@ -1,0 +1,15 @@
+{
+	"Class": "coyote.dx.Job",
+	
+	"Job": {
+		"Name": "Clean",
+		"Description": "Delete the work and log directories from app home.",
+		
+		"Task": {
+			"Delete": { "directory": "[#$app.work#]" },
+			"Delete": { "directory": "[#$app.home#]/log" }
+		}
+
+	}
+
+}

@@ -1,0 +1,34 @@
+{
+	"Class" : "coyote.dx.Job",
+	"Job" : {
+		"Name" : "DatabaseWriter",
+		"Description": "Demonstrate writing to a database.",
+		
+		"Reader" : {
+			"class" : "CsvReader",
+			"source" : "[#$app.home#]/demo/users.csv",
+			"header" : true
+		},
+
+		"Writer":{
+			"class" : "JdbcWriter",
+			"target" : "jdbc:h2:[#$user.dir#]/userdb",
+			"table" : "user",
+			"autocreate" : true,
+			"driver" : "org.h2.Driver",
+			"library" : "jar:file:[#$user.dir#]/h2-1.4.196.jar!/",
+			"username" : "sa",
+			"password" : "",
+			"batch" : 50
+  	}
+
+	},
+
+
+	"Logging": {
+	  "StandardOutput": { "categories": "info, notice" },
+	  "StandardError": { "categories": "error, fatal, warn" }
+	}
+
+
+}

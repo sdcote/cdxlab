@@ -1,0 +1,28 @@
+{
+	"Class": "coyote.dx.Job",
+	"Repeat": false,
+
+	"Job": {
+		"Name": "Sender",
+
+		"Reader": { "class": "StaticReader" },
+		
+		"Transform": {
+			"Counter": { "field": "RecNum" },
+			"Guid": { "field": "RecId" },
+			"Timestamp": { "field": "DateTime" },
+			"Set": { "field": "Status", "value": "System is up." }
+		},
+
+
+		"Writer": {
+			"class": "RabbitWriter",
+			"target": "amqp://orangutan.rmq.cloudamqp.com/qqxhunvl",
+			"username": "qqxhunvl",
+			"password": "Ik8vVHjf2-v_pgd3hWdcWjb-2mYsjB-m",
+			"use_ssl": true,
+			"queue": "demo/queue",
+			"format": "binary"
+		}
+	}
+}

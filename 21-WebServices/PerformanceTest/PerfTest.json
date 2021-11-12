@@ -1,0 +1,25 @@
+{
+	"Class" : "coyote.dx.Job",
+	
+	"Job" : {
+
+		"Reader" : {
+			"class" : "CsvReader",
+			"source" : "[#$wrkdir#][#$FS#]/RecommendOffers/Requests.csv",
+			"header": true
+		},
+
+		"Writer": { "class": "ConsoleWriter", "format": "json" },
+
+		"Writer": {
+			"Class": "WebServiceWriter",
+			"Target": "https://poloniex.com/tradingApi",
+			"Protocol": { "ExchangeType": "JSON_HTTP", "Method": "POST" },
+			"ResponseWriterX": { "class": "ConsoleWriter", "format": "json" },
+			"ResponseWriter": { "Class": "CsvWriter", "target": "Results.csv" }
+		},
+
+		"Listener": { "Validation": { "target": "STDERR" } }
+	}
+
+}

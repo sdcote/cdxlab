@@ -1,0 +1,34 @@
+{
+	"Class" : "coyote.dx.Job",
+	
+	"Job" : {
+		"Name" : "Persist",
+
+		"Context" : {
+			"class" : "FileContext",
+			"fields" : {
+				"filename": "[#$MM#][#$DD#][#$YYYY#]-[#$RunCount|00#].txt",
+				"workfile": "[#$user.dir#][#$FS#][#$filename#]"
+			}
+		},	
+
+		"Reader" : {
+			"class" : "CsvReader",
+			"source" : "[#$app.home#]/demo/users.csv",
+			"header" : true
+		},
+
+		"Writer" : {
+			"class" : "FlatFileWriter",
+			"target" : "workfile",
+			"fields" : {
+				"Role" : { "start" : 0, "length" : 6 },
+				"FirstName" : { "start" : 7, "length" : 11 },
+				"LastName" : { "start" : 19, "length" : 16 },
+				"MiddleInitial" : { "start" : 36, "length" : 1 }
+			}    
+		}
+
+	}
+
+}

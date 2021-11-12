@@ -1,0 +1,16 @@
+{
+	"Class": "coyote.dx.Job",
+
+	"Job": {
+		"Name": "Sender",
+		"Description" : "StaticReader generates a blank (empty) data frame, transformer adds a data field."
+
+		"Reader": { "class": "StaticReader" },
+		
+		"Transform": {
+			"Set": { "field": "Message", "value": "Hello World!" }
+		},
+
+		"Writer": { "class": "ConsoleWriter", "format": "json" }
+	}
+}

@@ -1,0 +1,14 @@
+{
+	"Class": "coyote.dx.Job",
+	
+		"Job": {
+			
+			"Task": {
+			"LogSymbols": {}
+		}
+	},
+	"Logging": {
+	  "ConsoleAppender": { "target": "STDOUT", "categories": "info, notice" },
+	  "ConsoleAppender": { "target": "STDERR", "categories": "error, fatal, warn" }
+	}
+}
