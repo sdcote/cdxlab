@@ -1,0 +1,38 @@
+# RunSql - Task
+
+This runs a set of SQL commands from a file against a database connection.
+
+With this task, it is possible to execute a SQL script against a JDBC connection to perform complex database processing. 
+
+## Use Cases
+
+The goal is to fully customize a relational database for subsequent use by other components in  the job.
+
+## Configuration
+
+| Parameter | Choices/Defaults  | Comment                                                      |
+| --------- | ----------------- | ------------------------------------------------------------ |
+| Name      | **Default:** true | This is a long description of how the parameter affects operation. |
+
+## Notes
+
+Anything the user should know about operation including troubleshooting and implications.
+
+## Output
+
+Description of the results of this components operation. Readers format, Transforms results, Writers output.
+
+## Examples
+
+These should be cut and paste candidates. 
+
+This configuration will...
+
+```json
+{}
+```
+
+## Status
+
+This component is considered stable
+

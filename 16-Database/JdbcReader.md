@@ -1,6 +1,7 @@
 # JdbcReader
 
-Read records from a JDBC connection.
+This is a frame reader which uses a JDBC result set to create frames.
+
 
 ## Use Cases
 

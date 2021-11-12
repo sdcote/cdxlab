@@ -14,6 +14,10 @@ The intended purpose of this component
 
 ## Notes
 
+There is an inherent loss of fidelity with this class in that not all SQL types are replicated faithfully through the writer. For example, the differences between VARCHAR, VARCHAR2, STRING are merged into a String type.
+
+NUMERIC and LONG are simply the Long type. The goal of this writer is to support the widest number of types across not only different data bases, but data storage technologies and network protocols. The core intermediate format (DataFrame) is designed to support data types common to many different technologies and therefore dictates what the framework supports.
+
 You will need access to the JDBC driver for the database you are going to use. The JAR can be specified in the configuration and can point to the common location of all your JDBC drivers.
 
 Thin (type 4) drivers are easier to use, but any JDBC driver is acceptable. The important concept is the driver must be in the classpath of the Java runtime. 
