@@ -10,13 +10,21 @@ The goal is to fully customize a relational database for subsequent use by other
 
 ## Configuration
 
-| Parameter | Choices/Defaults  | Comment                                                      |
-| --------- | ----------------- | ------------------------------------------------------------ |
-| Name      | **Default:** true | This is a long description of how the parameter affects operation. |
+| Parameter | Choices/Defaults                       | Comment                                                      |
+| --------- | -------------------------------------- | ------------------------------------------------------------ |
+| source    | **Default:** true                      | This is a long description of how the parameter affects operation. |
+| mode      | apache, freeform **Default:** freeform | This configures how the format configuration parameter is parsed. |
+| format    | String                                 | This is a string describing how to parse each column of the log entry |
 
 ## Notes
 
 Anything the user should know about operation including troubleshooting and implications.
+
+### Apache
+The apache format described in the apace documentation is fully supported.
+
+### Freeform
+The freeform mode parses the name and matches it to the same column in the log entry field.
 
 ## Output
 

@@ -1,4 +1,4 @@
-# JdbcReader
+# JdbcReader - Reader
 
 This is a frame reader which uses a JDBC result set to create frames.
 

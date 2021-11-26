@@ -1,0 +1,46 @@
+{
+	"Class": "coyote.dx.Job",
+	"Description": [
+		"This demonstrates the LogFileReader and the EventProfiler and how when used",
+		"together can perform basic log analysis.",
+		"Notice the proper escaping for the backslash character in the format string",
+		"of the LogFileReader. Two backslashes represent a single backslash",
+		"character (you are escaping the escape character). There are three in the",
+		"example because the double-quote is also escaped."
+	],
+	"Job": {
+		"Reader": {
+			"class": "LogFileReader",
+			"source": "access.log",
+			"mode": "apache",
+			"format": "%h %l %u %t \\\"%r\\\" %>s %b \\\"%{Referer}i\\\" \\\"%{User-Agent}i\\\" \\\"%{UNIQUE_ID}e\\\""
+		},
+		"Transform": {
+			"Split": { "field": "RequestLine", "delimiter": " " },
+			"Rename": { "source": "RequestLine.0", "field": "Method" },
+			"Rename": { "source": "RequestLine.1", "field": "Resource" },
+			"Rename": { "source": "RequestLine.2", "field": "Protocol" },
+			"Remove": { "field": "RequestLine" }
+		},
+		"Listener": {
+			"EventProfiler": {
+				"timestamp": "Time",
+				"track": "Resource",
+				"limit": 5,
+				"include": [
+					"/post/*",
+					"/presentation/*",
+					"/authors/*"
+				],
+				"exclude": [
+					"/post/index.xml",
+					"/authors/bob/*"
+				],
+				"target": "stdout"
+			}
+		}
+	},
+	"Logging": {
+		"StandardOutput": { "categories": "trace, debug, info, error, fatal, warn" }
+	}
+}
