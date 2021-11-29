@@ -1,0 +1,41 @@
+{
+	"Class": "coyote.dx.Job",
+	"Job": {
+		"Description": "Get all the projects in the Jira instance and write them to s CSV file.",
+		"Reader": {
+			"Class": "WebServiceReader",
+			"Source": "https://someinstance.jira.com/rest/api/latest/project?expand=description,lead,url,projectKeys",
+			"Selector": "*",
+			"Protocol": {
+				"ExchangeType": "JSON_REST",
+				"Method": "GET"
+			},
+			"Decorator": {
+				"BasicAuth": {
+					"username": "someuser",
+					"password": "somepassword"
+				}
+			}
+		},
+		"Mapper": {
+			"Fields": {
+				"key": "Team",
+				"name": "Name",
+				"lead.displayName": "ProjectLead",
+				"lead.active": "LeadActive",
+				"lead.name": "LeadId"
+			}
+		},
+		"Writer": {
+			"class": "CsvWriter",
+			"header": true,
+			"dateformat": "yyyy/MM/dd",
+			"target": "JiraProjects.csv"
+		}
+	},
+	"Logging": {
+		"StandardOutput": {
+			"categories": "trace, debug, info, notice, warn, error, fatal"
+		}
+	}
+}
