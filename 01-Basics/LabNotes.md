@@ -1,6 +1,6 @@
 # 01 - Basics
 
-This lab goes over basic operations of a data transfer job and how to install and call the Coyote DX tools.
+This lab goes over basic operations of a data transfer job and how to install and call the CDX tools.
 
 ## Simple Jobs
 
@@ -8,11 +8,11 @@ We will start with the classic first example.
 
 ### Hello World
 
-You can call Coyote DX directly from the command line:
-```
+You can call CDX directly from the command line:
+```shell
 java -jar CoyoteDX-0.8.6.jar HelloWorld.json
 ```
-This calls Coyote DX to read in its configuration from the file `HelloWorld.json` and perform the Read-Transform-Write operations it directs. Open `HelloWorld.json` and  review its parts:
+This calls CDX to read in its configuration from the file `HelloWorld.json` and perform the Read-Transform-Write operations it directs. Open `HelloWorld.json` and  review its parts:
 * **Class** - The class of job it is. In this case it is a simple `Job`.
 * **Job** - The Job configuration 
   *  **Name** - The optional name of the job. If omitted, the name of the configuration file would be used without its extension.
@@ -33,7 +33,7 @@ The Job Directory for the `HelloWorld` job is empty because it only wrote a mess
 
 ## Reading and Writing
 Now that the obligatory "Hello World" example is out of the way, here is a little more functional example:
-```
+```shell
 java -jar CoyoteDX-0.8.6.jar Simple.json
 ```
 If you look in the `Simple` job directory you will see the results of its processing, the `users.txt` file. It is a flat file representation of the data in the `users.csv` file. In this case we read in a CSV and generated a flat file with fixed column sizes, handy for older systems to read in.
@@ -42,7 +42,7 @@ Open the `Simple.json` file and you will see a configuration similar to the prev
 
 ## The Template
 
-Look in the `Template.json` file for an idea of what sections can exist in a Coyote data transfer job.
+Look in the `Template.json` file for an idea of what sections can exist in a CDX data transfer job.
 
 * **Context** - configures how data is populated in the transformation context of all job components.
 * **PreProcess** - tasks that are to be perform before reading in records of processing.
@@ -60,33 +60,51 @@ Details of each section will be discussed in subsequent labs.
 
 ## The Installer
 
-The Coyote DX JAR file is useful on its own, but its real power comes from other modules that can be optionally installed. To do this, Coyote DX can sense when it is being run as a part of a larger deployment and the data transfer jobs can reference classes in other modules.
+The CDX JAR file is useful on its own, but its real power comes from other modules that can be optionally installed. To do this, CDX can sense when it is being run as a part of a larger deployment and the data transfer jobs can reference classes in other modules.
 
-There is a standard set of modules that come with Coyote, but not all of them may be needed. To keep the footprint small, it is possible to install only the required modules. This is helpful in resource constrained devices.
+There is a standard set of modules that come with CDX, but not all of them may be needed. To keep the footprint small, it is possible to install only the required modules. This is helpful in resource constrained devices.
 
-To help with the installation, Coyote is distributed as a cross-platform installer.
+To help with the installation, CDX is distributed as a cross-platform installer.
 
-Download the installer by going to the [Coyote Release](https://github.com/sdcote/coyote/releases) page and choosing the release you want. If you want a pre-release version, select the "Tags" button for unreleased versions.
+Download the installer by going to the [CDX Release](https://github.com/sdcote/CDX/releases) page and choosing the release you want. If you want a pre-release version, select the "Tags" button for unreleased versions.
 
-To run the installation, call `java -jar CoyoteInstaller-X.X.X.jar` and follow the prompts.
+To run the installation, call `java -jar CDXInstaller-X.X.X.jar` and follow the prompts.
 
-If you are running this on a windowless system such as a Unix compute instance, you can run the installer in "test mode":
+If you are running this on a windowless system such as a Unix compute instance, you can run the installer in "text mode":
 
+```shell
+sudo java -jar CDXInstall.jar -console
 ```
-java -jar CoyoteDXInstall.jar -console
-```
+
+### Disk Space
+
+The default locations may not have enough disk space for the `log` and `wrk` directories. Some administrators will install CDX in different mount points of partitions based on the expected volumes.  Some CDX jobs my deal with large files and not all locations may be allocated enough space. 
+
+Additionally, some administrators will create symlinks to the `log` and `wrk` directories so they are referencing a portion of the file system with greater space.
 
 ### Execution Path
 
 Although not strictly necessary, it is convenient to add the `bin` directory of the install to the systems execution path. That way is is possible to run `cdx` from anywhere in the system without having to specify a complete path  to the launch script.  You could also alias the command if your platform and command interpreter supports it.
 
-Use the preferred method on your host to accomplish that. You could place it on the system path or you can place it in the user path, the choice is yours. Once this is done, you can call Coyote DX with the `cdx` command:
+Use the preferred method on your host to accomplish that. You could place it on the system path or you can place it in the user path, the choice is yours.  On Unix, the system path is updated by adding a line to the end of the `/etc/profile` similar to the following:
 
+```shell
+PATH=$PATH:/opt/cdx/bin
 ```
+
+Again, you will have to use the approach that is best for your environment.
+
+Once this is done, you can call CDX with the `cdx` command:
+
+```shell
 cdx HelloWorld.json
 ```
 
-The above is the most common way to call Coyote DX.
+The above is the most common way to call CDX.
+
+### Permissions
+
+On some systems it is recommended to make the `/opt/cdx` directory world writable. This is because logs and working files will be stored in this directory.
 
 ### Uninstall
 
@@ -106,27 +124,27 @@ The installer
 * **lib** - all the libraries (JAR files) are contained in this directory. You can add your own JARs here.
 * **doc** - this directory contains documentation and the license files for libraries.
 * **demo** - if you choose to install demo configuration, this is where they will be found.
-* **Uninstaller** this is the exact opposite of the installer, it will remove Coyote DX from your system.
+* **Uninstaller** this is the exact opposite of the installer, it will remove CDX from your system.
 
 There will be two other directories here, depending on the configuration of your jobs:
 
 * **log** - this is where all logs will go unless they are configured with absolute paths.
-* **wrk** - a common location for all the job directories.
+* **wrk** - a common location for all the job directories, again unless they are configured with absolute paths.
 
-The above will only appear if your jobs need them.
+The `log` and `wrk` directories will only appear if your jobs need them.
 
 ### Override Work Directory
 
-When you run Coyote from a common location, as would be the case with the Installer, you might notice that your job directory is not created in the current directory, but in the `wrk` directory where you installed Coyote. This is by design, allowing all your work files to be in one location.
+When you run CDX from a common location, as would be the case with the Installer, you might notice that your job directory is not created in the current directory, but in the `wrk` directory where you installed CDX. This is by design, allowing all your work files to be in one location.
 
 This can be overridden by using the `-owd` argument:
 
 ```cdx -owd HelloWorld.json```
 
-This tells Coyote to **o**verride the **w**ork **d**irectory and use the current directory instead.
+This tells CDX to **o**verride the **w**ork **d**irectory and use the current directory instead.
 
 # Summary
 
-At this point it should be clear how to install and use Coyote DX to call your data transfer job configurations.
+At this point it should be clear how to install and use CDX to call your data transfer job configurations.
 
-If you are looking for logs and you can't find them in your local directory, check the `log` directory in Coyote DX home. The same is true for your job directories; check the `wrk` directory where you installed Coyote DX.
+If you are looking for logs and you can't find them in your local directory, check the `log` directory in CDX home. The same is true for your job directories; check the `wrk` directory where you installed CDX.
