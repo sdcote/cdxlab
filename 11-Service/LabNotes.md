@@ -8,7 +8,7 @@ The primary use case for a `Service` is to group together a set of `Job` instanc
 
 # Simple Configuration
 
-The simplest configuration is arguable a service that runs a single `Job`. To demonstrate this, run `SimpleService.json`:
+The simplest configuration is arguably a service that runs a single `Job`. To demonstrate this, run `SimpleService.json`:
 
 ```
 cdx -owd SimpleService.json
@@ -25,10 +25,6 @@ INFO | Loader is operational
 This service is configured to run a job every 5 minutes. Once the time has arrived, the Job will run and then return to waiting for the next time to run. The service will remain running.
 
 To terminate the service, press `Ctrl-c` and the Java Runtime will terminate. Services utilize shutdown hooks with the runtime and all components will be terminated gracefully when the runtime terminates.
-
-
-
-
 
 # Running Services in the Background
 
@@ -56,6 +52,102 @@ and later kill the process with:
 ```
 kill -9 `cat daemon.pid`
 ```
+
+## Unix Daemon Support
+
+You can use the `inetd` subsystem in Unix environments to keep CDX running in the background even after reboots.
+
+**Note:** This capability requires the LSB package (Linux Standard Base) to be installed as it uses the `/lib/lsb/init-functions` library. 
+
+### Initialization Script
+
+As root, make a symbolic link to the `cdxd` script;  (will fail if the symlink exists already):
+
+```
+sudo ln -s /opt/cdx/bin/cdxd /etc/init.d/cdxd
+```
+
+To create or update the symlink:
+
+```
+sudo ln -sf /opt/cdx/bin/cdxd /etc/init.d/cdxd
+```
+
+### Link Initialization Script to Appropriate Run Levels
+
+Execute the following command. This will add appropriate 'S' and 'K' entries in the given run-levels. This will also add appropriate sequence number by considering the dependencies.
+
+```shell
+sudo update-rc.d cdxd defaults
+```
+
+On RedHat you should use `chkconfig`:
+```shell
+sudo chkconfig cdxd on
+```
+
+By default, `chkconfig` assumes levels 2345. Any runlevels not specified as on, will be marked as off; levels 016 by default. You can specify runlevels thusly: `chkconfig --level 345 cdxd on`.
+
+### Start the Service
+
+Since this is not a reboot, you will have to start the service initially by hand:
+```
+sudo service cdxd start
+```
+Check the state of the service:
+
+```
+sudo systemctl status cdxd.service
+sudo journalctl -xn
+```
+
+You can find the console logs in `/opt/cdx/log/cdxd.log`. This is invaluable for debugging your background service.
+
+### Editing the Start Script
+
+After editing the `cdxd` script, be sure to reload it:
+
+```
+sudo systemctl daemon-reload
+```
+
+To check if the service is running, execute this command:
+
+```
+service cdxd status
+```
+
+### Respawning
+
+**Optional:** you can have the service respawn if it ever crashes or is forcefully terminated by adding a respawn line for this service at the bottom of the `/etc/inittab` file:
+
+```
+id:2345:respawn:/bin/sh /opt/cdx/bin/cdxd start
+```
+
+This may conflict with the service, so be careful when using `inittab` respawning.
+
+### Removing the Service
+
+Run the command below to disable the CDX Daemon Service:
+
+```
+sudo update-rc.d cdxd disable
+```
+
+Run the command below to remove all the appropriate 'S' and 'K' entries from the different run levels:
+
+```
+sudo update-rc.d cdxd remove
+```
+
+### Editing the Daemon CDX Service
+
+The service runs the `/opt/cdx/cfg/daemon.json` job. Placing  `Job` configurations in the `daemon.json` configuration file allows them to run continually in the background. Just add a `Schedule` parameter to each `Job` configuration to control when that job runs.
+
+The `Wedge` component can be replaced with your own components or once you have a `Job` configured. It is there only to keep the daemon running until you add your components. Without any jobs or components, the daemon will exit.
+
+Note that it is listening to port 55289. It has no users defined so the API is disabled. It can only be reached by its monitoring endpoints`/metrics` and `/api/health`. Additionally, the IP Access Control List is rather restrictive. It only allows access from the local host and a few non-routable subnets. Adjust as needed.
 
 
 ## Windows
