@@ -101,7 +101,7 @@ sudo systemctl status cdxd.service
 sudo journalctl -xn
 ```
 
-You can find the console logs in `/opt/cdx/log/cdxd.log`. This is invaluable for debugging your background service.
+You can find the console logs in `/opt/cdx/cdxd.log`. This is invaluable for debugging your background service.
 
 ### Editing the Start Script
 
@@ -148,6 +148,15 @@ The service runs the `/opt/cdx/cfg/daemon.json` job. Placing  `Job` configuratio
 The `Wedge` component can be replaced with your own components or once you have a `Job` configured. It is there only to keep the daemon running until you add your components. Without any jobs or components, the daemon will exit.
 
 Note that it is listening to port 55289. It has no users defined so the API is disabled. It can only be reached by its monitoring endpoints`/metrics` and `/api/health`. Additionally, the IP Access Control List is rather restrictive. It only allows access from the local host and a few non-routable subnets. Adjust as needed.
+
+When updating your CDX daemon job, your workflow might look something like this:
+
+1. Edit the `daemon.json` file.
+2. Restart the service with `sudo service cdxd restart`
+3. Check the status of the service with `sudo systemctl status cdxd.service`
+4. Check the service log in `cat /opt/cdx/cdxd.log` and look for errors with the service.
+5. Check the daemon logs in `opt/cdx/log/cdxd*.log` a look for errors with the jobs.
+6. If there are problems in the logs, go back to step 1.
 
 
 ## Windows
@@ -204,17 +213,17 @@ Here is an example of how to generate a self-signed certificate for the localhos
 ```
  keytool -genkey -keyalg RSA -alias selfsigned -keystore keystore.jks -storepass password -validity 360 -keysize 2048 -ext SAN=DNS:localhost,IP:127.0.0.1  -validity 9999
 ```
-This will generate a key store file named `keystore.jks` with a self signed certificate for a host named localhost with the IP address 127.0.0.1. Of course, you will probably want to use the real hostname and IP address of the host running Coyote. If you are going to use this in production, you will probably want a certificate signed by a well-known certificate authority.
+This will generate a key store file named `keystore.jks` with a self signed certificate for a host named localhost with the IP address 127.0.0.1. Of course, you will probably want to use the real hostname and IP address of the host running CDX. If you are going to use this in production, you will probably want a certificate signed by a well-known certificate authority.
 
-Again, it is important to place this key store file in the classpath. The Coyote start-up scripts automatically place the configuration directory (`cfg`) of the application home in the classpath and this is the easiest location for your key store file.
+Again, it is important to place this key store file in the classpath. The CDX start-up scripts automatically place the configuration directory (`cfg`) of the application home in the classpath and this is the easiest location for your key store file.
 
-For more protection, you might consider making the file read-only by the users running Coyote. This way, only authorized accounts can manage the key store.
+For more protection, you might consider making the file read-only by the users running CDX. This way, only authorized accounts can manage the key store.
 
 ## Monitoring
 
 It is possible to monitor the operation of the service through the `/api/health` endpoint on the monitor. It will respond with "UP" if the service is running. It is intentionally designed to be simple to help parsing the response and to keep processing at a minimum on the service.
 
-Additionally, the `HttpManager` supports monitoring by [Prometheus](https://prometheus.io/) through the `/metrics` endpoint. Requests to this endpoint will return a set of operational metrics in the [OpenMetrics](https://openmetrics.io/) format. This means that [Prometheus](https://prometheus.io/) can use the both the `/api/health` endpoint for basic status monitoring and the `/meteics` endpoint for detailed operational metrics. When combined with tools like [Grafana](https://grafana.com/) Coyote services can be completely monitored.
+Additionally, the `HttpManager` supports monitoring by [Prometheus](https://prometheus.io/) through the `/metrics` endpoint. Requests to this endpoint will return a set of operational metrics in the [OpenMetrics](https://openmetrics.io/) format. This means that [Prometheus](https://prometheus.io/) can use the both the `/api/health` endpoint for basic status monitoring and the `/meteics` endpoint for detailed operational metrics. When combined with tools like [Grafana](https://grafana.com/) CDX services can be completely monitored.
 
 ## Security
 
