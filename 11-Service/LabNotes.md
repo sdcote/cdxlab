@@ -57,7 +57,19 @@ kill -9 `cat daemon.pid`
 
 You can use the `inetd` subsystem in Unix environments to keep CDX running in the background even after reboots.
 
-**Note:** This capability requires the LSB package (Linux Standard Base) to be installed as it uses the `/lib/lsb/init-functions` library. 
+**Note:** This capability requires the LSB package (Linux Standard Base) to be installed as it uses the `/lib/lsb/init-functions` library.  
+
+For example, if on a Red Hat system you get:
+```
+error reading information on service /etc/init.d/cdxd: No such file or directory
+```
+
+You will need to run:
+
+```
+sudo yum install redhat-lsb
+
+```
 
 ### Initialization Script
 
