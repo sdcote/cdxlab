@@ -73,7 +73,7 @@ To run the installation, call `java -jar CDXInstaller-X.X.X.jar` and follow the 
 If you are running this on a windowless system such as a Unix compute instance, you can run the installer in "text mode":
 
 ```shell
-sudo java -jar CDXInstall.jar -console
+sudo java -jar CDXInstaller.jar -console
 ```
 
 ### Disk Space
@@ -104,7 +104,9 @@ The above is the most common way to call CDX.
 
 ### Permissions
 
-On some systems it is recommended to make the `/opt/cdx` directory world writable. This is because logs and working files will be stored in this directory.
+On some systems it is recommended to make the `/opt/cdx` directory world writable. This is because logs and working files will be stored in this directory. The common directories requiring write access are:
+* [installDirectory]/cdx/log
+* [installDirectory]/cdx/wrk
 
 ### Uninstall
 
