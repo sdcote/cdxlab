@@ -48,6 +48,16 @@ $
 ```
 In the above you can see Coyote 0.8.7 is the base and there are several other modules of differing versions.
 
+### User Directory
+
+At the time of writing, the current working directory for all CDX images is the root directory.
+
+```
+'user.dir' = /
+```
+
+
+
 ## Batch Runs
 In this scenario, CDX data transfer jobs are run in an ad hoc fashion where the job runs and the container terminates after the last record in the batch is processed. 
 
