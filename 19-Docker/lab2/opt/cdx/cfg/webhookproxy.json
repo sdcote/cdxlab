@@ -1,0 +1,26 @@
+{
+	"Class": "coyote.dx.Service",
+	"Description":[
+		"This maps RTW jobs to endpoints enabling different RTW processing for each endpoint.",
+		"WebEx converts webhook calls into a format suitable for publishing messages to WebEx teams."
+	],
+
+	"Job": {
+		"Reader": { "class": "HttpReader", "port": 80, "timeout": 5000, "IPACL" : { "default" : "allow"	},"endpoint": "/webex" },
+		"Transform": { "AlertManager2Markdown": { }	},
+		"Writer": { "class": "ConsoleWriter", "Enabled": true, "format": "json", "indent": true, "message": "Record [#$CurrentFrame#] received." },
+		"Writer": {
+			"Enabled": true,
+			"Class": "WebServiceWriter",
+			"Target": "https://webexapis.com/v1/webhooks/incoming/Y2lzYscGFyaxNWMxYjvYTBjOGQ3ZkhPT0OS00MjFlLWFiMTMtN2UzovL3mQtYmRl29zdlzovL3VzL1dFQVzL1dFQkhPT0OS00MjFlLWFiMTMtN2UYmRh",
+			"Protocol": { "ExchangeType": "JSON_HTTP", "Method": "POST" },
+			"ResponseWriter": { "Class": "JsonWriter", "target": "WebexResponses.json" }
+		}
+	},
+
+
+	"Logging": {
+		"StandardOutput": { "categories": "scheduler, thread, debug, trace, info, httpd, notice, warn, error, fatal" }
+	}
+
+}
