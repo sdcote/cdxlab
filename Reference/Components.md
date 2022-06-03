@@ -4,7 +4,7 @@ The role of a Reader in the CDX toolkit is to create a DataFrame in the Transact
 
 Consider a Reader which listens to a message queue. The reader blocks on the queue until a message is received and once received creates a DataFrame representing the message and returns it to the caller (the Transform Engine). The message is then passed through the the other components in the engine and processed according to the configuration of the other components. It is even possible to utilize Listeners to ensure proper processing and issue a response.
 
-Readers must support two methods; `eof()` and `read(Transaction Context)`. The EOF method returns true when there is no more data available and will signal the Transform Engine not to attempt to read any data. Returning false will normally result in the exiting of the run loop and post processing to occur.
+Readers must support two methods; `eof()` and `read(Transaction Context)`. The EOF method returns true when there is no more data available and will signal the Transform Engine not to attempt to read any data. Returning false will normally result in the exiting of the run loop and post-processing occurring.
 
 The read method simply reads data from its source and returns a DataFrame for the other components to process. The engine takes this DataFrame and places it in the "source frame" attribute in the current Transaction Context. The Transaction Context then creates a working copy (i.e. clone) of the source frame in the context for other components to process. This DataFrame is called the "working frame" and is open for other components to modify.
 
@@ -33,9 +33,9 @@ Readers are designed to be simple. All they need to do is signal when there is n
 
 # Writers
 
-CDX Writers have one simple purpose; write DataFrames to some target location / media. This DataFrame is always a clone of the working frame of the current Transaction Context unless there is a Mapper involved which will map fields of the working frame to the target frame for the writer to use..
+CDX Writers have one simple purpose; write DataFrames to some target location / media. This DataFrame is always a clone of the working frame of the current Transaction Context unless there is a Mapper involved which will map fields of the working frame to the target frame for the writer to use.
 
-Writers can write their frames to anything, files, databases, network sockets or to other frameworks through specializes API calls. There is no reason why a writer could not publish a DataFrame on a message queue or a pub-sub topic.
+Writers can write their frames to anything, files, databases, network sockets, or to other frameworks through specialized API calls. There is no reason why a writer could not publish a DataFrame on a message queue or a pub-sub topic.
 
 It is possible to have multiple writers in a transform job. The default to unconditionally writing all frames passing through the context, but it is also possible to define a boolean expression to control when a frame is written. This enables a "fan-out" and "router" pattern in your jobs.
 
@@ -104,7 +104,7 @@ If processing is to occur within the read-write cycle, the developer can create 
 
 * **Archive** - generates a compressed archive of a file or directory. (i.e., create a zip file)
 * **Backup** - Make a copy of a file in the given file using a generation naming scheme effectively rotating the files.
-* **CheckAlder32** - Perform a Adler32 checksum on the given file and compare it with the checksum in a file with the same name with a ".adler32" suffix.
+* **CheckAlder32** - Perform an Adler32 checksum on the given file and compare it with the checksum in a file with the same name with a ".adler32" suffix.
 * **CheckCRC** - Perform a CRC32 checksum on the given file and compare it with the checksum in a file with the same name with a ".crc32" suffix.
 * **CheckMD5** - Perform a MD5 checksum on the given file and compare it with the checksum in a file with the same name with an ".MD5" or an ".md5" suffix.
 * **CheckSHA1** - Perform a SHA-1 digest on the given file and compare it with the checksum in a file with the same name with a ".sha1" suffix.
@@ -152,6 +152,12 @@ It is a good idea to have a `listener` registered with the job to record working
 
 ## Core Project
 
+* **Contains** - ensure the value in the field contains one of the given values.
+* **Distinct** - The value of this field must not match any other instances of this field.
+* **NotEmpty** - There must be a value and it must not be an empty string or all whitespace.
+* **NotNull** - There must be a value, even if it is an empty string or all whitespace.
+* **Pattern** - Must or must not match a regular expression pattern.
+
 # Listeners
 
 CDX Listeners are notified by the Transform Engine when events occur during the run cycle. One or more listeners can be registered with the Transform Engine to perform processing at specific points in the process.
@@ -191,7 +197,7 @@ Transforms can also perform simple functions such as formatting dates and number
 
 ## Core Project
 
-- **AlertManager2Markdown** - This is an example of a custom transform. It converts a DataFrame received from an Alertmanager webhook call into a frame format suitable for sending to Cisco WebEx or MicrosoftTeams.
+- **AlertManager2Markdown** - This is an example of a custom transform. It converts a DataFrame received from a Prometheus Alertmanager webhook call into a frame format suitable for sending to Cisco WebEx or Microsoft Teams.
 - **Append** - appends to the value of a field with a particular value based on some condition.
 - **Copy** - Copy one field to another.
 - **Counter** - Place a sequential number in the named field.
@@ -224,9 +230,16 @@ Not all the fields in the Working Frame need to be present in the target frame. 
 
 ## Core Project
 
+- **DefaultFrameMapper** - This is the default mapper that maps one name to another.
+- **SegmentMapper** - scans the working frame for matches and finds matching data to place in the target frame.
+
 # Context
 
+The purpose of the context is to provide a "data domain" shared by multiple components. Components that share the same context can share data with other components in that context by placing data in that context with a shared identifier. Other components can access these data by their identifier.
+
 ## Core Project
+
+- **FileContext** - This is a transform context that is persisted to the file system after the job completes to help persist state between job runs. 
 
 ## Coyote DB
 
