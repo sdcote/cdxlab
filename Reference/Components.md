@@ -29,7 +29,7 @@ Readers are designed to be simple. All they need to do is signal when there is n
 
 ## Coyote WS
 
-* **WebServiceReader** - Makes a request of a remo web service and uses the response for data records.
+* **WebServiceReader** - Makes a request of a remote web service and uses the response for data records.
 
 # Writers
 
@@ -164,6 +164,17 @@ Events and Listeners are a great way to extend the toolkit to perform complex pr
 
 ## Core Project
 
+- **ContextDumper** - records the data in the context at the beginning and the end of a transformation.
+- **ContextLogger** - logs all events to a file for the batch.
+- **DataProfiler** - keeps track of the data read in to and out of the engine and reports on the characteristics of the data observed.
+- **EventProfiler** -  tracks the occurrences of a tracked field providing a variety of information about the field.
+- **FieldTotal** - Track the running total for a particular column and place the result in both the context and the symbol table for other components to use.
+- **PercentChange** - compares the current frame against the last frame cached from a subsequent read/mapping event or the average of all previously cached frames.
+- **RunJob** - execute the named job when after all the fields of the working frame have been mapped to the target frame.
+- **Validation** -  writes the record with all the errors for later processing.
+
+
+
 ## Coyote DB
 
 * **CreateRecord** - inserts the target record into the configured database table.
@@ -179,6 +190,27 @@ CDX Transforms are components designed to make changes to the Working Frame with
 Transforms can also perform simple functions such as formatting dates and numbers, changing the case of a string, and encrypting sensitive fields.
 
 ## Core Project
+
+- **AlertManager2Markdown** - This is an example of a custom transform. It converts a DataFrame received from an Alertmanager webhook call into a frame format suitable for sending to Cisco WebEx or MicrosoftTeams.
+- **Append** - appends to the value of a field with a particular value based on some condition.
+- **Copy** - Copy one field to another.
+- **Counter** - Place a sequential number in the named field.
+- **Date** - Create a native date object from the data existing in the field.
+- **Format** - Alias for the Text transform. (*under development*)
+- **Guid** - Place a random globally unique identifier (GUID) in the named field.
+- **KeepOnly** - Removes all fields from the frame except for the named field.
+- **Multiply** - Multiply a field by a factor.
+- **Numeric** - set a number in a named field. (*under development*)
+- **Remove** - Remove a field.
+- **Rename** - Rename a field.
+- **Replace** -  replace the target string with the value in the given named field.
+- **Set** - sets the value of a field to a particular value based on some condition.
+- **Split** - Split a field into multiple fields.
+- **Subtract** - subtract one field from another or use literals if desired.
+- **Text** - Create a text (String) object from the data existing in the field.
+- **Timestamp** - Places the current date-time in the configured field.
+
+
 
 # Mappers
 

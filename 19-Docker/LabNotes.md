@@ -1,4 +1,4 @@
-# Containerized Coyote
+# Containerized CDX
 
 Pull the image from [Docker Hub](https://hub.docker.com/r/coyotesys/coyote):
 ```
@@ -73,7 +73,7 @@ Sometimes it's easier to just reference the local file. Here we are using the sh
 $ docker run -v `pwd`/file.json:/opt/cdx/cfg/file.json cdx file.json
 ```
 
-Extensions are not strictly necessary:
+File extensions are not strictly necessary:
 
 ```shell
 $ docker run -v `pwd`/file:/opt/cdx/cfg/file cdx file1
@@ -91,7 +91,7 @@ If you want to save the results of processing, volumes are, again, the answer. M
 $ docker run -v `pwd`/:/opt/cdx/wrk -v ./file.json:/opt/cdx/cfg/file.json cdx file.json
 ```
 
-Finally, the most complete version of the call would be to remove the container after it exits:
+The most complete version of the call would be to remove the container after it exits:
 
 ```shell
 $ docker run --rm -v `pwd`/:/opt/cdx/wrk -v ./file.json:/opt/cdx/cfg/file.json cdx file.json
@@ -143,7 +143,7 @@ Make sure you are in the `lab1` directory for this example.
 
 In previous labs, we use a simple job to read a file in one format and write it out to another. We will use that same example here, only with the CDX docker image.
 
-If we reun he followin command like the above, we don't seem to get anything:
+If we run he following command like the above, we don't seem to get anything:
 ```shell
 $ docker run --rm -v `pwd`:/opt/cdx/cfg cdx Simple.json
 ```
@@ -206,7 +206,7 @@ CMD ["webhookproxy"]
 # EOF
 ```
 
-In the above  example you see the first lines start the Docker build from the `cdx` image that you have previously downloaded. 
+In the above example, you see the first lines start the Docker build from the `cdx` image that you have previously downloaded. 
 
 The second few lines updates the `/opt` directory with the configuration files from the local file system. This could easily contribute more to the `lib` directory as well.
 
