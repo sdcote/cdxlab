@@ -5,10 +5,6 @@ Pull the image from [Docker Hub](https://hub.docker.com/r/coyotesys/coyote):
 docker pull coyotesys/cdx
 ```
 
-
-
-
-
 Assuming the image name of "cdx" 
 
 Generate/encode an encrypted string
@@ -96,6 +92,25 @@ The most complete version of the call would be to remove the container after it 
 ```shell
 $ docker run --rm -v `pwd`/:/opt/cdx/wrk -v ./file.json:/opt/cdx/cfg/file.json cdx file.json
 ```
+### Common Approach
+
+The most common approach is to map both the configuration and work directory to the current directory and store all your jobs in the current directory. This allows the most flexibility and provides a simple alias:
+
+```shell
+$ docker run --rm -v `pwd`/:/opt/cdx/cfg -v `pwd`/:/opt/cdx/wrk cdx file.json
+```
+The following are common aliases used to make working with CDX containers easier:
+
+```bash
+alias cdx='docker run --rm -v `pwd`:/opt/cdx/cfg -v `pwd`:/opt/cdx/wrk cdx'
+alias cdxd='docker run --rm -v `pwd`:/opt/cdx/cfg -v `pwd`:/opt/cdx/wrk cdx -d'
+alias cdxkeep='docker run -v `pwd`:/opt/cdx/cfg -v `pwd`:/opt/cdx/wrk cdx'
+alias cdxdkeep='docker run -v `pwd`:/opt/cdx/cfg -v `pwd`:/opt/cdx/wrk cdx -d'
+```
+The first two aliases run the container and remove it when it completes. The next two keep the container after it executes to allow you to debug the container should things go wrong.
+
+Note the use of single quotes so the `pwd` commanis not evaluated when the alias is created.
+
 
 ## Server Runs
 The CDX data transfer job can remain running in a container as a service on the host. This is dependent on the configuration file used. Volumes are used to specify the configuration file as described above.
