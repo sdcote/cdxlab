@@ -52,7 +52,7 @@ At the time of writing, the current working directory for all CDX images is the 
 'user.dir' = /
 ```
 
-
+This means the `-owd` switch (override working directory)  is not available in the base directory
 
 ## Batch Runs
 In this scenario, CDX data transfer jobs are run in an ad hoc fashion where the job runs and the container terminates after the last record in the batch is processed. 
@@ -189,7 +189,7 @@ $
 As mentioned before, this command is so useful that many users create an alias for it.
 
 
-# Custom Images
+# Lab 2 - Custom Images
 
 Once you have a working configuration, it is sometimes easier to place it in an image so it can be called simply:
 
@@ -243,3 +243,41 @@ The `webhookproxy` image should now be running in the background listing to requ
 
 
 
+# Lab 3 - Overriding Work Directory
+
+In this example, we will be overriding the user the container uses and using the -owd switch in the entry point to allow you to more easily 
+
+Open the `Dockerfile` and view its contents:
+
+```Dockerfile
+FROM cdx
+
+# Create a user and a group (change UID and GID if they conflict on your system)
+ARG UNAME=testuser
+ARG UID=1000
+ARG GID=1000
+RUN groupadd -g $GID -o $UNAME
+RUN useradd -m -u $UID -g $GID -o -s /bin/sh $UNAME
+USER $UNAME
+
+# Change our work directory to enable simple volume mapping
+WORKDIR /wrk
+
+# Run CDX overriding the work directory to our current directory set above
+ENTRYPOINT ["cdx -owd"]
+
+# Run the daemon configuration by default
+CMD ["daemon.json"]
+     
+# EOF
+```
+
+
+
+Now you can run CDX using any directory as the work and configuration directory with one volume mapping:
+
+```shell
+$ docker run --rm -v /jobs/simple:/wrk cdx import.json
+```
+
+All the files written will have aa UID and a GID of `1000` and you can create a user on your system with the dame UID and GID to better manage permission

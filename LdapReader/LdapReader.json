@@ -1,0 +1,41 @@
+{
+	"Class" : "coyote.dx.Job",
+	"Job" : {
+		"Name" : "LdapReader",
+		
+		"Reader" : {
+			"class" : "LdapReader",
+			"source" : "corp.aepsc.com",
+			"username": "juser@corp",
+			"password": "s3c4et",
+			"name": "OU=LOB Users,DC=corp,DC=example,DC=com",
+			"filter": "(objectClass=person)",
+			"fields": [
+				"cn",
+				"displayName",
+				"title",
+				"department",
+				"mail",
+				"ipPhone",
+				"manager",
+				"memberOf",
+				"description",
+				"workLocationID",
+				"name"
+			]
+		},
+
+		"Writer" : {
+			"class" : "CsvWriter",
+			"target" : "ldap_reader.csv",
+			"header" : true
+		},
+
+		"Logging": {
+			"StandardError": { "name": "error", "target": "STDERR", "categories": "error, fatal, warn" },
+			"StandardOutput": { "name": "default",  "target": "STDOUT", "categories": "trace, debug, info" }
+		}
+
+	}
+
+}
