@@ -1,8 +1,8 @@
 {
 	"Class": "coyote.dx.Job",
 	"Description": [
-		"This demonstrates the LogFileReader and the EventProfiler and how when used",
-		"together can perform basic log analysis.",
+		"This demonstrates the LogFileReader and the EventProfiler and how, when used",
+		"together, can perform basic log analysis.",
 		"Notice the proper escaping for the backslash character in the format string",
 		"of the LogFileReader. Two backslashes represent a single backslash",
 		"character (you are escaping the escape character). There are three in the",

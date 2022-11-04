@@ -2,7 +2,7 @@
 
 This listener that keeps track of timestamped records. It counts how often timestamped records occur and plots the summaries of the occurrences on a report. 
 
-The component also support the tracking of the occurrences of a field value
+The component also supports the tracking of the occurrences of a field value.
 
 ## Use Cases
 
@@ -14,10 +14,10 @@ Tracking the occurrences of a field value also provides information as to the co
 
 | Parameter | Choices/Defaults       | Comment                                                      |
 | --------- | ---------------------- | ------------------------------------------------------------ |
-| timestamp | string                 | The field that contains a parsible date-time field.          |
+| timestamp | string                 | The field that contains a parsable date-time field.          |
 | track     | string                 | the field containing the value the component is to track.    |
 | target    | string                 | The name of the file to write the event report. Valid values can include `stdout` and `stderr` for quicker reporting. |
-| Include   | string[]               | An array of regular expressions used to match the values. This results in only matching values to be tracked. All other values are ignored. See [Oracle's Java Regex Documentation](https://www.oracle.com/technical-resources/articles/java/regex.html) for details on creating regular expressions. |
+| Include   | string[]               | An array of regular expressions used to match the values. This results in only matching values being tracked. All other values are ignored. See [Oracle's Java Regex Documentation](https://www.oracle.com/technical-resources/articles/java/regex.html) for details on creating regular expressions. |
 | exclude   | string[]               | An array of regular expressions used to exclude values. This results in all values being tracked except for those matching one of these expressions.  See [Oracle's Java Regex Documentation](https://www.oracle.com/technical-resources/articles/java/regex.html) for details on creating regular expressions. |
 | limit     | number **Default:** 25 | Limit the report to the top must frequent occurrences.  A value of 10 will result in only the top 10 occurrences being reported. A value of zero implies do not track/print occurrences. |
 
@@ -30,13 +30,13 @@ For a contrived example, you might specify `/orders/*` as an include pattern and
 
 ## Output
 
-Description of the results of this components operation. Readers format, Transforms results, Writers output.
+*Description of the results of this components operation. Readers format, Transforms results, Writers output.*
 
 ## Examples
 
-These should be cut and paste candidates. 
+*These should be cut and paste candidates.* 
 
-This configuration will...
+*This configuration will...*
 
 ```json
 {}
@@ -44,6 +44,4 @@ This configuration will...
 
 ## Status
 
-This component is considered stable
-
-25, 
+This component is considered stable.
