@@ -72,7 +72,7 @@ $ docker run -v `pwd`/file.json:/opt/cdx/cfg/file.json cdx file.json
 File extensions are not strictly necessary:
 
 ```shell
-$ docker run -v `pwd`/file:/opt/cdx/cfg/file cdx file1
+$ docker run -v `pwd`/file:/opt/cdx/cfg/file cdx file
 ```
 
 Of course, the source filename is not required to be the same as the configuration name:
@@ -280,4 +280,4 @@ Now you can run CDX using any directory as the work and configuration directory 
 $ docker run --rm -v /jobs/simple:/wrk cdx import.json
 ```
 
-All the files written will have aa UID and a GID of `1000` and you can create a user on your system with the dame UID and GID to better manage permission
+All the files written will have aa UID and a GID of `1000` and you can create a user on your system with the same UID and GID to better manage permission
